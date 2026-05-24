@@ -20,6 +20,11 @@
   --gray: #8a8a96;
 }
 html { scroll-behavior: smooth; }
+/* ── PAGE SYSTEM ── */
+.page { display: none; }
+.page.active { display: block; }
+#page-home { display: block; }
+
 body { background: var(--obsidian); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
 
 /* NAV */
@@ -359,58 +364,124 @@ footer { background: var(--obsidian); border-top: 1px solid var(--border); paddi
   .footer-inner { grid-template-columns: 1fr; }
 }
 </style>
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  var el = document.getElementById('page-' + name);
+  if (el) { el.classList.add('active'); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(initObserver, 150);
+}
+
+function mtiScrollTo(selector) {
+  setTimeout(function() {
+    var el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 60);
+}
+
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+function initObserver() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry, i) {
+      if (entry.isIntersecting) {
+        setTimeout(function() { entry.target.classList.add('visible'); }, i * 100);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.page.active .fade-in:not(.visible)').forEach(function(el) {
+    observer.observe(el);
+  });
+}
+
+initObserver();
+</script>
 </head>
 <body>
+<div id="page-home" class="page active">
+
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a class="nav-logo" href="#home">
-    <span>Mental Toughness Institute</span>
-  </a>
+  <a class="nav-logo" onclick="showPage('home')" style="cursor:pointer;" style="display:flex;align-items:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 100" aria-label="Mental Toughness Institute" style="height:52px;width:auto;">
+  <text x="0" y="30" font-family="'DM Sans',sans-serif" font-size="26" fill="#f26419" font-weight="300" letter-spacing="5">MENTAL</text>
+  <text x="0" y="58" font-family="'DM Sans',sans-serif" font-size="26" fill="#f5f3ee" font-weight="300" letter-spacing="2">TOUGHNESS</text>
+  <text x="0" y="76" font-family="'DM Sans',sans-serif" font-size="12" fill="#8a8a96" font-weight="300" letter-spacing="8">INSTITUTE</text>
+  <polyline points="190,4 238,4 238,82 148,82" fill="none" stroke="#f26419" stroke-width="1.2" stroke-linecap="square"/>
+</svg></a>
   <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#our-story">Our Story</a></li>
-    <li><a href="#why-us">Why Us?</a></li>
-    <li><a href="#our-founder">Our Founder</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#shop">Shop</a></li>
-    <li><a href="#events">Events</a></li>
-    <li><a href="#testimonials">Testimonials</a></li>
-    <li><a href="#blog">Blog</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" onclick="showPage('home')" style="cursor:pointer;">Home</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-story')" style="cursor:pointer;">Our Story</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#why-us')" style="cursor:pointer;">Why Us?</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-founder')" style="cursor:pointer;">Our Founder</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#services')" style="cursor:pointer;">Services</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#shop')" style="cursor:pointer;">Shop</a></li>
+    
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#testimonials')" style="cursor:pointer;">Testimonials</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#blog')" style="cursor:pointer;">Blog</a></li>
+    <li><a href="#" onclick="showPage('speaking')" style="cursor:pointer;" class="nav-speaking">Speaking</a></li>
+    <li><a href="#" onclick="showPage('home');mtiScrollTo('#contact')" style="cursor:pointer;">Contact</a></li>
   </ul>
+  <a href="#" class="nav-cta" onclick="event.preventDefault();showPage('home');mtiScrollTo('#contact')">Begin Now</a>
   <div class="hamburger" onclick="toggleMenu()" id="hamburger">
     <span></span><span></span><span></span>
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#home" onclick="closeMenu()">Home</a>
-  <a href="#our-story" onclick="closeMenu()">Our Story</a>
-  <a href="#why-us" onclick="closeMenu()">Why Us?</a>
-  <a href="#our-founder" onclick="closeMenu()">Our Founder</a>
-  <a href="#services" onclick="closeMenu()">Services</a>
-  <a href="#shop" onclick="closeMenu()">Shop</a>
+  <a href="#" onclick="showPage('home');closeMenu()" style="cursor:pointer;">Home</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#our-story');closeMenu()" style="cursor:pointer;">Our Story</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#why-us');closeMenu()" style="cursor:pointer;">Why Us?</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#our-founder');closeMenu()" style="cursor:pointer;">Our Founder</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#services');closeMenu()" style="cursor:pointer;">Services</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#shop');closeMenu()" style="cursor:pointer;">Shop</a>
   <a href="#events" onclick="closeMenu()">Events</a>
-  <a href="#testimonials" onclick="closeMenu()">Testimonials</a>
-  <a href="#blog" onclick="closeMenu()">Blog</a>
-  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#testimonials');closeMenu()" style="cursor:pointer;">Testimonials</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#blog');closeMenu()" style="cursor:pointer;">Blog</a>
+  <a href="#" onclick="showPage('speaking');closeMenu()" style="cursor:pointer;">Speaking</a>
+  <a href="#" onclick="showPage('home');mtiScrollTo('#contact');closeMenu()" style="cursor:pointer;">Contact</a>
 </div>
 
 <!-- HERO -->
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
+  <div style="position:absolute;top:-80px;right:-80px;width:360px;height:360px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);pointer-events:none;z-index:2;"></div>
+  <div style="position:absolute;top:-20px;right:-20px;width:220px;height:220px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);pointer-events:none;z-index:2;"></div>
   <div class="hero-content">
-    <p class="hero-tag">Mental Toughness Institute</p>
-    <h1>Welcome to<em>Mental Toughness</em></h1>
-    <p class="hero-subtitle">Building a mentally tough world, one psychological skill at a time.</p>
-    <p class="hero-quote">
+    <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#f26419;margin:0 0 1.2rem;">Mental Toughness Institute</p>
+    <div style="width:48px;height:4px;background:#f26419;margin-bottom:1.8rem;"></div>
+
+    <h1 style="font-family:'DM Sans',sans-serif;font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:500;line-height:1.2;color:#ffffff;margin:0 0 1.2rem;max-width:620px;letter-spacing:-0.01em;">
+      Your comfort zone isn't keeping you safe.<br>
+      It's keeping you <span style="color:#f26419;">small.</span>
+    </h1>
+
+    <p style="font-size:1rem;color:#aaaaaa;line-height:1.75;max-width:500px;margin:0 0 2rem;">
+      Real growth lives in discomfort. We give you the tools, mindset, and coaching to stop avoiding hard things — and start becoming who you're meant to be.
+    </p>
+
+    <div style="margin-bottom:2.5rem;">
+      <a href="#our-story" onclick="event.preventDefault();mtiScrollTo('#our-story')" class="btn-primary" style="border-radius:0;font-size:0.82rem;">Start getting uncomfortable. It's time.</a>
+      <a href="#contact" onclick="event.preventDefault();showPage('home');mtiScrollTo('#contact')" class="btn-ghost" style="margin-left:1.2rem;font-size:0.82rem;border-radius:0;">Get In Touch</a>
+    </div>
+
+    <p class="hero-quote" style="margin-bottom:2rem;">
       "The privilege of a lifetime is to become who you really are."<br>
       <small style="font-size:0.85em;opacity:0.7;">— Carl G. Jung</small>
     </p>
-    <div>
-      <a href="#our-story" class="btn-primary">Experience Transformation</a>
-      <a href="#contact" class="btn-ghost">Get In Touch</a>
+
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+      <span style="font-size:0.72rem;color:#888;border:0.5px solid #333;padding:6px 14px;border-radius:999px;">Personal coaching</span>
+      <span style="font-size:0.72rem;color:#888;border:0.5px solid #333;padding:6px 14px;border-radius:999px;">Group programmes</span>
+      <span style="font-size:0.72rem;color:#888;border:0.5px solid #333;padding:6px 14px;border-radius:999px;">Stoic parenting</span>
+      <span style="font-size:0.72rem;color:#888;border:0.5px solid #333;padding:6px 14px;border-radius:999px;">Masterclasses</span>
+      <span style="font-size:0.72rem;color:#888;border:0.5px solid #333;padding:6px 14px;border-radius:999px;">Speaking engagements</span>
     </div>
   </div>
 </section>
@@ -905,52 +976,6 @@ footer { background: var(--obsidian); border-top: 1px solid var(--border); paddi
   </div>
 </section>
 
-<!-- EVENTS -->
-<section id="events">
-  <div class="section-inner">
-    <div class="fade-in" style="text-align:center;">
-      <p class="section-label" style="justify-content:center;">Join Us Live</p>
-      <h2 class="section-title">Upcoming <span>Events</span></h2>
-      <div class="divider"></div>
-    </div>
-    <div class="events-list fade-in">
-      <div class="event-row">
-        <div class="event-date-box">
-          <div class="event-day">18</div>
-          <div class="event-mon">Feb 2026</div>
-        </div>
-        <div>
-          <div class="event-title">The Art of Mental Toughness Community</div>
-          <div class="event-meta"><span>Online Event</span>2:00 PM · Join the Movement: Building a Community of Mental Toughness</div>
-        </div>
-        <div class="event-price">£75</div>
-      </div>
-      <div class="event-row">
-        <div class="event-date-box">
-          <div class="event-day">10</div>
-          <div class="event-mon">Feb 2026</div>
-        </div>
-        <div>
-          <div class="event-title">Individual Coaching Taster</div>
-          <div class="event-meta"><span>Online Event</span>2:00 PM · Master Your Mind: One-on-One Coaching in the Art of Mental Toughness</div>
-        </div>
-        <div class="event-price free">FREE</div>
-      </div>
-      <div class="event-row">
-        <div class="event-date-box">
-          <div class="event-day">05</div>
-          <div class="event-mon">Feb 2026</div>
-        </div>
-        <div>
-          <div class="event-title">Group Coaching Taster</div>
-          <div class="event-meta"><span>Online Event</span>2:00 PM · Unlock Your Inner Mental Toughness</div>
-        </div>
-        <div class="event-price free">FREE</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="section-inner">
@@ -1198,7 +1223,7 @@ function closeArticle() {
 <div class="cta-band fade-in">
   <h2>Become The Best Version of Yourself</h2>
   <p>The life you're capable of is on the other side of mental toughness.</p>
-  <button class="btn-dark" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Begin Your Journey</button>
+  <button class="btn-dark" href="#" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Begin Your Journey</button>
 </div>
 
 <!-- CONTACT -->
@@ -1282,16 +1307,21 @@ function closeArticle() {
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.12em;color:var(--orange);">Mental Toughness Institute</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 100" aria-label="Mental Toughness Institute" style="height:52px;width:auto;display:block;margin-bottom:1rem;">
+  <text x="0" y="30" font-family="'DM Sans',sans-serif" font-size="26" fill="#f26419" font-weight="300" letter-spacing="5">MENTAL</text>
+  <text x="0" y="58" font-family="'DM Sans',sans-serif" font-size="26" fill="#f5f3ee" font-weight="300" letter-spacing="2">TOUGHNESS</text>
+  <text x="0" y="76" font-family="'DM Sans',sans-serif" font-size="12" fill="#8a8a96" font-weight="300" letter-spacing="8">INSTITUTE</text>
+  <polyline points="190,4 238,4 238,82 148,82" fill="none" stroke="#f26419" stroke-width="1.2" stroke-linecap="square"/>
+</svg>
       <p>Building a mentally tough world, one psychological skill at a time. Backed by science, fueled by purpose, inspired by potential.</p>
     </div>
     <div class="footer-col">
       <h5>Navigate</h5>
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#our-story">Our Story</a></li>
-        <li><a href="#why-us">Why Us?</a></li>
-        <li><a href="#our-founder">Our Founder</a></li>
+        <li><a href="#" onclick="showPage('home')" style="cursor:pointer;">Home</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-story')" style="cursor:pointer;">Our Story</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#why-us')" style="cursor:pointer;">Why Us?</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-founder')" style="cursor:pointer;">Our Founder</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1300,16 +1330,17 @@ function closeArticle() {
         <li><a href="#services">Personal Coaching</a></li>
         <li><a href="#services">Group Coaching</a></li>
         <li><a href="#services">Stoic Parenting</a></li>
-        <li><a href="#events">Events</a></li>
+        
       </ul>
     </div>
     <div class="footer-col">
       <h5>Resources</h5>
       <ul>
-        <li><a href="#shop">Shop</a></li>
-        <li><a href="#blog">Blog</a></li>
-        <li><a href="#testimonials">Testimonials</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#shop')" style="cursor:pointer;">Shop</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#blog')" style="cursor:pointer;">Blog</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#testimonials')" style="cursor:pointer;">Testimonials</a></li>
+        <li><a href="#" onclick="showPage('home');mtiScrollTo('#contact')" style="cursor:pointer;">Contact</a></li>
+        <li><a href="#" onclick="event.preventDefault();showPage('speaking')">Speaking</a></li>
       </ul>
     </div>
   </div>
@@ -1319,23 +1350,245 @@ function closeArticle() {
   </div>
 </footer>
 
-<script>
-function toggleMenu() {
-  document.getElementById('mobile-menu').classList.toggle('open');
-}
-function closeMenu() {
-  document.getElementById('mobile-menu').classList.remove('open');
-}
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 100);
-    }
-  });
-}, { threshold: 0.08 });
 
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
+</div><!-- end page-home -->
+
+<!-- ═══════════════ SPEAKING PAGE ═══════════════ -->
+<div id="page-speaking" class="page">
+
+  <div class="page-header" data-bg-text="SPEAK">
+    <p class="section-label" style="margin-top:0;">On Stage &amp; In Conversation</p>
+    <h1>Speaking <em style="color:var(--orange);font-style:normal;">Engagements</em></h1>
+    <p>Gilda Wake delivers powerful, evidence-based keynotes and workshops on mental toughness, emotional intelligence, and human potential — for organisations, conferences, and events worldwide.</p>
+  </div>
+
+  <div style="max-width:1200px;margin:0 auto;padding:6rem 3rem 10rem;">
+
+    <!-- Intro + TEDx -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;margin-bottom:7rem;" class="fade-in">
+      <div>
+        <p class="section-label">Why Book Gilda</p>
+        <h2 class="section-title">A Speaker Who <span>Moves</span> People.</h2>
+        <p style="color:var(--gray);font-size:0.95rem;line-height:1.95;margin-bottom:1.2rem;">Gilda doesn't just deliver information — she creates experiences that shift perspectives, ignite action, and leave audiences with tools they can use immediately.</p>
+        <p style="color:var(--gray);font-size:0.95rem;line-height:1.95;margin-bottom:1.2rem;">Drawing on cutting-edge psychology, neuroscience, and years of coaching experience, her talks combine intellectual rigour with raw authenticity — the kind that makes people lean forward in their seats.</p>
+        <p style="color:var(--gray);font-size:0.95rem;line-height:1.95;margin-bottom:2rem;">Whether addressing a boardroom of executives, a stadium of athletes, or a community of parents, Gilda meets every audience where they are — and takes them somewhere new.</p>
+        <a href="#speaking-contact" class="btn-primary">Book Gilda to Speak</a>
+      </div>
+      <div style="position:relative;">
+        <div style="position:absolute;top:-1.5rem;right:-1.5rem;left:1.5rem;bottom:1.5rem;border:1px solid rgba(242,100,25,0.25);"></div>
+        <div style="background:var(--steel);padding:3rem;position:relative;border:1px solid var(--border);">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.5rem;color:var(--white);line-height:1.5;margin-bottom:1.5rem;">"Gilda has an extraordinary ability to make the science of the mind accessible, practical, and deeply personal. Her talk changed how our entire leadership team thinks about pressure and performance."</p>
+          <p style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--orange);">Head of People, Global Tech Company</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEDx Feature -->
+    <div style="background:var(--charcoal);border:1px solid var(--border);padding:4rem;display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:center;margin-bottom:7rem;" class="fade-in">
+      <div style="text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--orange);line-height:1;letter-spacing:0.05em;">TEDx</div>
+        <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:0.5rem;">Cluj 2023</div>
+        <div style="width:40px;height:1px;background:var(--orange);margin:1.5rem auto;"></div>
+        <div style="font-size:0.8rem;color:var(--gray);line-height:1.7;">Photographer:<br>Nicu Cherciu</div>
+      </div>
+      <div>
+        <p class="section-label">Featured Talk</p>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;line-height:1.1;">TEDx Cluj 2023</h3>
+        <p style="color:var(--gray);font-size:0.95rem;line-height:1.95;margin-bottom:1rem;">Gilda took the TEDx stage in Cluj, Romania in 2023 — delivering a talk that challenged the audience to rethink their relationship with discomfort, adversity, and their own potential.</p>
+        <p style="color:var(--gray);font-size:0.95rem;line-height:1.95;margin-bottom:2rem;">The talk drew on her deep expertise in mental toughness and positive psychology to make a compelling, evidence-based case for leaning into difficulty rather than away from it.</p>
+        <a href="#speaking-contact" class="btn-ghost">Enquire About a Similar Talk</a>
+      </div>
+    </div>
+
+    <!-- Talk Topics -->
+    <div class="fade-in" style="margin-bottom:7rem;">
+      <div style="text-align:center;margin-bottom:4rem;">
+        <p class="section-label" style="justify-content:center;">Keynotes &amp; Workshops</p>
+        <h2 class="section-title">Talk <span>Topics</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);">
+
+        <div style="background:var(--charcoal);padding:2.5rem;position:relative;transition:background 0.3s;" onmouseover="this.style.background='var(--steel)'" onmouseout="this.style.background='var(--charcoal)'">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(242,100,25,0.1);line-height:1;margin-bottom:1rem;">01</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;">The Art of Mental Toughness</h3>
+          <p style="font-size:0.88rem;color:var(--gray);line-height:1.85;">What separates those who thrive under pressure from those who crumble? An evidence-based deep dive into the six pillars of mental toughness and how to develop them.</p>
+          <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width 0.5s;" onmouseover="this.style.width='100%'"></div>
+        </div>
+
+        <div style="background:var(--charcoal);padding:2.5rem;position:relative;transition:background 0.3s;" onmouseover="this.style.background='var(--steel)'" onmouseout="this.style.background='var(--charcoal)'">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(242,100,25,0.1);line-height:1;margin-bottom:1rem;">02</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;">Your Comfort Zone Is Keeping You Small</h3>
+          <p style="font-size:0.88rem;color:var(--gray);line-height:1.85;">A provocative, science-backed talk on why discomfort is the price of growth — and how to stop letting your brain's survival instincts run your life.</p>
+          <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width 0.5s;" onmouseover="this.style.width='100%'"></div>
+        </div>
+
+        <div style="background:var(--charcoal);padding:2.5rem;position:relative;transition:background 0.3s;" onmouseover="this.style.background='var(--steel)'" onmouseout="this.style.background='var(--charcoal)'">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(242,100,25,0.1);line-height:1;margin-bottom:1rem;">03</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;">Emotional Mastery Under Pressure</h3>
+          <p style="font-size:0.88rem;color:var(--gray);line-height:1.85;">How to feel everything and be governed by nothing. Practical tools from positive psychology and neuroscience for managing emotions when the stakes are high.</p>
+          <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width 0.5s;" onmouseover="this.style.width='100%'"></div>
+        </div>
+
+        <div style="background:var(--charcoal);padding:2.5rem;position:relative;transition:background 0.3s;" onmouseover="this.style.background='var(--steel)'" onmouseout="this.style.background='var(--charcoal)'">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(242,100,25,0.1);line-height:1;margin-bottom:1rem;">04</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;">Happiness &amp; Flourishing</h3>
+          <p style="font-size:0.88rem;color:var(--gray);line-height:1.85;">What does it really mean to flourish? Grounded in positive psychology and the science of wellbeing, this talk redefines success and shows audiences how to build a life that truly thrives.</p>
+          <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width 0.5s;" onmouseover="this.style.width='100%'"></div>
+        </div>
+
+        <div style="background:var(--charcoal);padding:2.5rem;position:relative;transition:background 0.3s;" onmouseover="this.style.background='var(--steel)'" onmouseout="this.style.background='var(--charcoal)'">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(242,100,25,0.1);line-height:1;margin-bottom:1rem;">05</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;">Resilience in the Workplace</h3>
+          <p style="font-size:0.88rem;color:var(--gray);line-height:1.85;">Tailored for corporate audiences — a compelling case for why mental toughness is the most valuable asset any organisation can cultivate in its people, and a roadmap for doing so.</p>
+          <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width 0.5s;" onmouseover="this.style.width='100%'"></div>
+        </div>
+
+        <div style="background:var(--charcoal);padding:2.5rem;position:relative;transition:background 0.3s;" onmouseover="this.style.background='var(--steel)'" onmouseout="this.style.background='var(--charcoal)'">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(242,100,25,0.1);line-height:1;margin-bottom:1rem;">06</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:var(--white);margin-bottom:1rem;">Bespoke &amp; Custom Talks</h3>
+          <p style="font-size:0.88rem;color:var(--gray);line-height:1.85;">Every audience is different. Gilda works closely with event organisers to craft bespoke talks tailored to your theme, industry, and the specific outcomes you want your audience to leave with.</p>
+          <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--orange);transition:width 0.5s;" onmouseover="this.style.width='100%'"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Formats -->
+    <div class="fade-in" style="margin-bottom:7rem;">
+      <div style="text-align:center;margin-bottom:4rem;">
+        <p class="section-label" style="justify-content:center;">How We Work</p>
+        <h2 class="section-title">Speaking <span>Formats</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;">
+        <div style="background:var(--steel);border:1px solid var(--border);padding:2.5rem 2rem;text-align:center;transition:border-color 0.3s,transform 0.3s;" onmouseover="this.style.borderColor='rgba(242,100,25,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0)'">
+          <div style="width:48px;height:48px;border:1px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f26419" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h4 style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.8rem;">Keynote</h4>
+          <p style="font-size:0.82rem;color:var(--gray);line-height:1.7;">45–90 minute keynote for conferences, summits, and large events</p>
+        </div>
+        <div style="background:var(--steel);border:1px solid var(--border);padding:2.5rem 2rem;text-align:center;transition:border-color 0.3s,transform 0.3s;" onmouseover="this.style.borderColor='rgba(242,100,25,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0)'">
+          <div style="width:48px;height:48px;border:1px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f26419" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          </div>
+          <h4 style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.8rem;">Workshop</h4>
+          <p style="font-size:0.82rem;color:var(--gray);line-height:1.7;">Interactive half-day or full-day workshops for teams and organisations</p>
+        </div>
+        <div style="background:var(--steel);border:1px solid var(--border);padding:2.5rem 2rem;text-align:center;transition:border-color 0.3s,transform 0.3s;" onmouseover="this.style.borderColor='rgba(242,100,25,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0)'">
+          <div style="width:48px;height:48px;border:1px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f26419" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h4 style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.8rem;">Virtual</h4>
+          <p style="font-size:0.82rem;color:var(--gray);line-height:1.7;">Online keynotes and webinars for global teams and remote audiences</p>
+        </div>
+        <div style="background:var(--steel);border:1px solid var(--border);padding:2.5rem 2rem;text-align:center;transition:border-color 0.3s,transform 0.3s;" onmouseover="this.style.borderColor='rgba(242,100,25,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0)'">
+          <div style="width:48px;height:48px;border:1px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f26419" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h4 style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;color:var(--white);margin-bottom:0.8rem;">Panel</h4>
+          <p style="font-size:0.82rem;color:var(--gray);line-height:1.7;">Panel moderation and participation for industry events and roundtables</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact form -->
+    <div id="speaking-contact" class="fade-in">
+      <div style="text-align:center;margin-bottom:4rem;">
+        <p class="section-label" style="justify-content:center;">Make an Enquiry</p>
+        <h2 class="section-title">Book <span>Gilda</span></h2>
+        <div class="divider"></div>
+        <p style="color:var(--gray);font-size:0.95rem;max-width:500px;margin:0 auto;">Tell us about your event and we'll get back to you within 48 hours.</p>
+      </div>
+      <div style="max-width:700px;margin:0 auto;background:var(--steel);border:1px solid var(--border);padding:3rem;">
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Your first name">
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Your last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Organisation / Event Name</label>
+            <input type="text" placeholder="Where will Gilda be speaking?">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Event Date</label>
+              <input type="text" placeholder="Approximate date">
+            </div>
+            <div class="form-group">
+              <label>Audience Size</label>
+              <input type="text" placeholder="Expected number of attendees">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tell Us About Your Event</label>
+            <textarea placeholder="Theme, format, what you'd like the audience to take away..."></textarea>
+          </div>
+          <button class="btn-submit">Send Enquiry</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER speaking -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 100" style="height:40px;width:auto;display:block;margin-bottom:1rem;" aria-label="MTI">
+  <text x="0" y="30" font-family="'DM Sans',sans-serif" font-size="26" fill="#f26419" font-weight="300" letter-spacing="5">MENTAL</text>
+  <text x="0" y="58" font-family="'DM Sans',sans-serif" font-size="26" fill="#f5f3ee" font-weight="300" letter-spacing="2">TOUGHNESS</text>
+  <text x="0" y="76" font-family="'DM Sans',sans-serif" font-size="12" fill="#8a8a96" font-weight="300" letter-spacing="8">INSTITUTE</text>
+  <polyline points="190,4 238,4 238,82 148,82" fill="none" stroke="#f26419" stroke-width="1.2" stroke-linecap="square"/>
+</svg>
+        <p>Cultivating mental fortitude, resilience, and emotional agility in individuals worldwide.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="#" onclick="event.preventDefault();showPage('home')">Home</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('home');mtiScrollTo('#our-story')">Our Story</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('home');mtiScrollTo('#services')">Services</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('speaking')">Speaking</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#" onclick="event.preventDefault();showPage('books')">Books</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('blog')">Blog</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('home');mtiScrollTo('#shop')">Shop</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="mailto:contact@mtiglobal.co.uk">Email Us</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Mental Toughness Institute. All rights reserved.</span>
+      <span>contact@mtiglobal.co.uk · +44 7773 383569</span>
+    </div>
+  </footer>
+
+</div><!-- end page-speaking -->
+
+
 </body>
 </html>
