@@ -364,44 +364,6 @@ footer { background: var(--obsidian); border-top: 1px solid var(--border); paddi
   .footer-inner { grid-template-columns: 1fr; }
 }
 </style>
-<script>
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  var el = document.getElementById('page-' + name);
-  if (el) { el.classList.add('active'); }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(initObserver, 150);
-}
-
-function mtiScrollTo(selector) {
-  setTimeout(function() {
-    var el = document.querySelector(selector);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, 60);
-}
-
-function toggleMenu() {
-  document.getElementById('mobile-menu').classList.toggle('open');
-}
-function closeMenu() {
-  document.getElementById('mobile-menu').classList.remove('open');
-}
-
-function initObserver() {
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry, i) {
-      if (entry.isIntersecting) {
-        setTimeout(function() { entry.target.classList.add('visible'); }, i * 100);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.page.active .fade-in:not(.visible)').forEach(function(el) {
-    observer.observe(el);
-  });
-}
-
-initObserver();
-</script>
 </head>
 <body>
 <div id="page-home" class="page active">
@@ -417,34 +379,33 @@ initObserver();
 </svg></a>
   <ul class="nav-links">
     <li><a href="#" onclick="showPage('home')" style="cursor:pointer;">Home</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-story')" style="cursor:pointer;">Our Story</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#why-us')" style="cursor:pointer;">Why Us?</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-founder')" style="cursor:pointer;">Our Founder</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#services')" style="cursor:pointer;">Services</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#shop')" style="cursor:pointer;">Shop</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#our-story')" style="cursor:pointer;">Our Story</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#why-us')" style="cursor:pointer;">Why Us?</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#our-founder')" style="cursor:pointer;">Our Founder</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#services')" style="cursor:pointer;">Services</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#shop')" style="cursor:pointer;">Shop</a></li>
     
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#testimonials')" style="cursor:pointer;">Testimonials</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#blog')" style="cursor:pointer;">Blog</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#testimonials')" style="cursor:pointer;">Testimonials</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#blog')" style="cursor:pointer;">Blog</a></li>
     <li><a href="#" onclick="showPage('speaking')" style="cursor:pointer;" class="nav-speaking">Speaking</a></li>
-    <li><a href="#" onclick="showPage('home');mtiScrollTo('#contact')" style="cursor:pointer;">Contact</a></li>
+    <li><a href="#" onclick="showPage('home');scrollTo('#contact')" style="cursor:pointer;">Contact</a></li>
   </ul>
-  <a href="#" class="nav-cta" onclick="event.preventDefault();showPage('home');mtiScrollTo('#contact')">Begin Now</a>
   <div class="hamburger" onclick="toggleMenu()" id="hamburger">
     <span></span><span></span><span></span>
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
   <a href="#" onclick="showPage('home');closeMenu()" style="cursor:pointer;">Home</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#our-story');closeMenu()" style="cursor:pointer;">Our Story</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#why-us');closeMenu()" style="cursor:pointer;">Why Us?</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#our-founder');closeMenu()" style="cursor:pointer;">Our Founder</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#services');closeMenu()" style="cursor:pointer;">Services</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#shop');closeMenu()" style="cursor:pointer;">Shop</a>
+  <a href="#" onclick="showPage('home');scrollTo('#our-story');closeMenu()" style="cursor:pointer;">Our Story</a>
+  <a href="#" onclick="showPage('home');scrollTo('#why-us');closeMenu()" style="cursor:pointer;">Why Us?</a>
+  <a href="#" onclick="showPage('home');scrollTo('#our-founder');closeMenu()" style="cursor:pointer;">Our Founder</a>
+  <a href="#" onclick="showPage('home');scrollTo('#services');closeMenu()" style="cursor:pointer;">Services</a>
+  <a href="#" onclick="showPage('home');scrollTo('#shop');closeMenu()" style="cursor:pointer;">Shop</a>
   <a href="#events" onclick="closeMenu()">Events</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#testimonials');closeMenu()" style="cursor:pointer;">Testimonials</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#blog');closeMenu()" style="cursor:pointer;">Blog</a>
+  <a href="#" onclick="showPage('home');scrollTo('#testimonials');closeMenu()" style="cursor:pointer;">Testimonials</a>
+  <a href="#" onclick="showPage('home');scrollTo('#blog');closeMenu()" style="cursor:pointer;">Blog</a>
   <a href="#" onclick="showPage('speaking');closeMenu()" style="cursor:pointer;">Speaking</a>
-  <a href="#" onclick="showPage('home');mtiScrollTo('#contact');closeMenu()" style="cursor:pointer;">Contact</a>
+  <a href="#" onclick="showPage('home');scrollTo('#contact');closeMenu()" style="cursor:pointer;">Contact</a>
 </div>
 
 <!-- HERO -->
@@ -467,8 +428,8 @@ initObserver();
     </p>
 
     <div style="margin-bottom:2.5rem;">
-      <a href="#our-story" onclick="event.preventDefault();mtiScrollTo('#our-story')" class="btn-primary" style="border-radius:0;font-size:0.82rem;">Start getting uncomfortable. It's time.</a>
-      <a href="#contact" onclick="event.preventDefault();showPage('home');mtiScrollTo('#contact')" class="btn-ghost" style="margin-left:1.2rem;font-size:0.82rem;border-radius:0;">Get In Touch</a>
+      <a href="#our-story" onclick="event.preventDefault();scrollTo('#our-story')" class="btn-primary" style="border-radius:0;font-size:0.82rem;">Start getting uncomfortable. It's time.</a>
+      <a href="#contact" onclick="event.preventDefault();showPage('home');scrollTo('#contact')" class="btn-ghost" style="margin-left:1.2rem;font-size:0.82rem;border-radius:0;">Get In Touch</a>
     </div>
 
     <p class="hero-quote" style="margin-bottom:2rem;">
@@ -1319,9 +1280,9 @@ function closeArticle() {
       <h5>Navigate</h5>
       <ul>
         <li><a href="#" onclick="showPage('home')" style="cursor:pointer;">Home</a></li>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-story')" style="cursor:pointer;">Our Story</a></li>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#why-us')" style="cursor:pointer;">Why Us?</a></li>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#our-founder')" style="cursor:pointer;">Our Founder</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#our-story')" style="cursor:pointer;">Our Story</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#why-us')" style="cursor:pointer;">Why Us?</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#our-founder')" style="cursor:pointer;">Our Founder</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1336,10 +1297,10 @@ function closeArticle() {
     <div class="footer-col">
       <h5>Resources</h5>
       <ul>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#shop')" style="cursor:pointer;">Shop</a></li>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#blog')" style="cursor:pointer;">Blog</a></li>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#testimonials')" style="cursor:pointer;">Testimonials</a></li>
-        <li><a href="#" onclick="showPage('home');mtiScrollTo('#contact')" style="cursor:pointer;">Contact</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#shop')" style="cursor:pointer;">Shop</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#blog')" style="cursor:pointer;">Blog</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#testimonials')" style="cursor:pointer;">Testimonials</a></li>
+        <li><a href="#" onclick="showPage('home');scrollTo('#contact')" style="cursor:pointer;">Contact</a></li>
         <li><a href="#" onclick="event.preventDefault();showPage('speaking')">Speaking</a></li>
       </ul>
     </div>
@@ -1350,7 +1311,44 @@ function closeArticle() {
   </div>
 </footer>
 
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  var el = document.getElementById('page-' + name);
+  if (el) { el.classList.add('active'); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(initObserver, 150);
+}
 
+function scrollTo(selector) {
+  setTimeout(function() {
+    var el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 60);
+}
+
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+function initObserver() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry, i) {
+      if (entry.isIntersecting) {
+        setTimeout(function() { entry.target.classList.add('visible'); }, i * 100);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.page.active .fade-in:not(.visible)').forEach(function(el) {
+    observer.observe(el);
+  });
+}
+
+initObserver();
+</script>
 
 </div><!-- end page-home -->
 
@@ -1559,8 +1557,8 @@ function closeArticle() {
         <h5>Navigate</h5>
         <ul>
           <li><a href="#" onclick="event.preventDefault();showPage('home')">Home</a></li>
-          <li><a href="#" onclick="event.preventDefault();showPage('home');mtiScrollTo('#our-story')">Our Story</a></li>
-          <li><a href="#" onclick="event.preventDefault();showPage('home');mtiScrollTo('#services')">Services</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('home');scrollTo('#our-story')">Our Story</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('home');scrollTo('#services')">Services</a></li>
           <li><a href="#" onclick="event.preventDefault();showPage('speaking')">Speaking</a></li>
         </ul>
       </div>
@@ -1569,7 +1567,7 @@ function closeArticle() {
         <ul>
           <li><a href="#" onclick="event.preventDefault();showPage('books')">Books</a></li>
           <li><a href="#" onclick="event.preventDefault();showPage('blog')">Blog</a></li>
-          <li><a href="#" onclick="event.preventDefault();showPage('home');mtiScrollTo('#shop')">Shop</a></li>
+          <li><a href="#" onclick="event.preventDefault();showPage('home');scrollTo('#shop')">Shop</a></li>
         </ul>
       </div>
       <div class="footer-col">
